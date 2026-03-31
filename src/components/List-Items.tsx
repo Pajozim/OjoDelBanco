@@ -2,21 +2,21 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { ListItem } from "../utils/list-items";
-import { router, RelativePathString } from "expo-router";
+import { router, Href } from "expo-router";
 
 export type iconNameProps = keyof typeof MaterialIcons.glyphMap;
 
 type ItemCardProps = {
   label: string;
   icon: iconNameProps;
-  link: RelativePathString;
+  link: Href;
 };
 
 type ItemProps = {
   id: string;
   label: string;
   icon: iconNameProps;
-  href: RelativePathString;
+  href: Href;
 };
 
 export function ListItems() {

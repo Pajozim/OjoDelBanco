@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "nubank-clone",
-    "slug": "nubank-clone",
+    "name": "Ojo del Banco",
+    "slug": "ojodelbanco",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pajozi.nubank-withCamReader"
     },
     "android": {
       "adaptiveIcon": {
@@ -36,9 +37,11 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": false
+      },
       "eas": {
-        "projectId": "6cf56e4c-421c-4bf3-aa3b-2785d71a28a9"
+        "projectId": "c26aa9ff-9449-4513-8338-de4849effd1a"
       }
     }
   }

@@ -1,6 +1,7 @@
 import { ScrollView, Text, View } from "react-native";
 import { Header } from "../../../components/Header";
-import { useBalance } from "../../../context/fake_balance";
+import { Button } from "../../../components/Button";
+import { router } from "expo-router";
 
 export default function Placeholder() {
 
@@ -9,9 +10,22 @@ export default function Placeholder() {
       <View className="bg- h-44 w-full justify-between bg-nubank-purple-400 p-app-padding">
         <Header />
 
-        <Text className="text-xl font-semibold text-nubank-white">
-          Placeholder
-        </Text>
+        <View className="flex-row items-center justify-between">
+          <Text className="text-xl font-semibold text-nubank-white">
+            Placeholder
+          </Text>
+          
+          <Button
+            label="Go back"
+            size={"lg"}
+            className="w-1/3 pl-4"
+            labelClasses="text-nubank-white text-lg font-medium"
+            variant="ghost"
+            icon="chevron-left"
+            iconPosition="left"
+            onPress={() => router.back()}
+          />
+        </View>
       </View>
 
       <View className="gap-1">

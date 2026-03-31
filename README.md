@@ -15,6 +15,18 @@ Anno 2026
 - Back/Cancel "possibility" on a transfer route/page
 - modifications of TextCard, Card and Button
 - creating and refining TextInput
+- restructuring and reinstalling from nubank-clone to OjoDelBanco
+
+25.05.:
+- rebuilding the eas ojo del banco app
+
+26./27.05.:
+- debugging tries to TypeScript linter
+
+30.05.:
+- setting textinput styles and properties
+- fixing transfer layout index scroll offset
+- incomplete: updating fake balance by amount from transfer
 
 to-do next:
-- a readme.md
+- 

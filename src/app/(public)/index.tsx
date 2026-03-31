@@ -45,7 +45,7 @@ export default function Authentication() {
       />
       <Button
         /* onPress={handleAuthentication} */
-        onPress={() => router.push("./(auth)")}
+        onPress={() => router.push("../(auth)")}
         label="Use your mobile phone password"
         className="h-16 w-full rounded-full bg-nubank-white"
         labelClasses="text-zinc-800"
