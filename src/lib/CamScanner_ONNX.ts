@@ -1,8 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
-//import TextRecognition from '@react-native-ml-kit/text-recognition';
 import { Alert, Platform, NativeModules } from 'react-native';
 import { StateSetterBundle } from '../components/Text-Input-Items';
-import getDictionaryUri from '../utils/File_URIs';
 import Ocr from '@gutenye/ocr-react-native';
 import { Asset } from 'expo-asset';
 
