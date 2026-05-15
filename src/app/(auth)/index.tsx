@@ -1,5 +1,4 @@
 import { ScrollView, Text, View } from "react-native";
-import { Button } from "../../components/Button";
 import { Header } from "../../components/Header";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FlatList } from "react-native-gesture-handler";
@@ -22,7 +21,7 @@ export default function Index() {
         <Header />
 
         <Text className="text-xl font-semibold text-nubank-white">
-          Hi, John
+          Buenas Dias, Paulo
         </Text>
       </View>
 
@@ -32,7 +31,7 @@ export default function Index() {
           <MaterialIcons name="chevron-right" size={22} color="gray" />
         </View>
         <Text className="text-xl font-medium text-nubank-white">
-          {balance}
+          {balance[0]}
         </Text>
       </View>
 

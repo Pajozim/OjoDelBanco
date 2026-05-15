@@ -7,10 +7,7 @@ import { TextCard } from "../../../components/Text-Card";
 import { useBalance } from "../../../context/fake_balance";
 import { TransferInputItems } from "../../../components/Text-Input-Items";
 
-export const [amount, setAmount] = React.useState<number>(0);
-
 export default function Transfer() {
-
   const scrollViewRef = useRef<ScrollView>(null);  // ← Create reference
   const { balance } = useBalance()
 
@@ -45,20 +42,21 @@ export default function Transfer() {
         <TextCard label="Account" chevronRight={false} isBorderBottom={true} className="flex flex-row justify-start">
           <View className="flex-row items-center justify-start w-full">
             <Text className="text-xl font-medium text-nubank-white pl-4 w-auto">
-              {balance}
+              {balance[0]}
             </Text>
             <Text className="text-xl font-medium text-rose-400 pl-4 w-auto">
-              ( {amount > 0 ? balance - amount : ""} )
+              ( {balance[1] > 0 ? (balance[0] - balance[1]).toFixed(2) : 0} )
             </Text>
           </View>
         </TextCard>
 
           <TextCard label="" chevronRight={false} isBorderBottom={true} className="flex items-center-safe justify-center">
-            <TransferInputItems variant="ghost" size="lg" className="w-full" amount={amount} setAmount={setAmount} />
+            <TransferInputItems className="w-full" />
           </TextCard>
         
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
+
 

@@ -18,3 +18,10 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
+
+# phone dir
+android
+ios
+
+# local properties copy
+local copy.properties

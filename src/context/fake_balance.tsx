@@ -2,14 +2,14 @@
 import React, { createContext, useState, useContext } from 'react';
 
 type BalanceContextType = {
-  balance: number;
-  setBalance: (value: number) => void;
+  balance: number[];
+  setBalance: ([value1, value2]: number[]) => void;
 };
 
-const BalanceContext = createContext<BalanceContextType | undefined>(undefined);
+const BalanceContext = createContext<BalanceContextType | null>(null);
 
 export function BalanceProvider({ children }: { children: React.ReactNode }) {
-  const [balance, setBalance] = useState(980.45); // fake starting balance
+  const [balance, setBalance] = useState([980.45, 0]); // fake starting balance
   
   return (
     <BalanceContext.Provider value={{ balance, setBalance }}>

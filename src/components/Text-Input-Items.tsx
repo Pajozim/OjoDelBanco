@@ -1,71 +1,141 @@
+import React from 'react';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { TextInput, View, type TextInputProps } from 'react-native';
-import React , { useState, useEffect } from 'react';
-
-import { amount, setAmount } from '../app/(auth)/transfer';
+import { TextInput, Alert, View, type TextInputProps, Text } from 'react-native';
+import { useBalance } from '../context/fake_balance';
+import { Button } from './Button';
+import { router } from 'expo-router';
 import { cn } from '../lib/utils';
+import ReaderForTransfer from '../lib/CamScanner_ONNX';
 
+// --- Variants ---
 const txtInpVariants = cva(
-  'flex flex-row items-center justify-center rounded-md text-left font-medium mt-5 border-2',
-  {
-    variants: {
-      variant: {
-        default: 'bg-primary text-primary-foreground',
-        secondary: 'bg-secondary text-secondary-foreground',
-        destructive: 'bg-destructive text-destructive-foreground',
-        ghost: 'bg-nubank-gray', /* this one is used */
-        link: 'text-primary underline-offset-4',
-      },
-      size: {
-        default: 'h-10 px-4 text-base',
-        sm: 'h-8 px-2 text-sm',
-        lg: 'min-h-12 h-auto px-8 text-xl', /* this one is used */
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
-    },
-  }
+  'flex flex-row items-center justify-center rounded-md text-left font-medium mt-5 border-2 border-nubank-gray min-h-12 h-auto px-8 text-xl'
 );
 
+// --- Interfaces ---
 interface TransferInputProps
   extends TextInputProps,
     VariantProps<typeof txtInpVariants> {
       className?: string
 }
 
+export interface StateSetterBundle {
+  setFullName: React.Dispatch<React.SetStateAction<string>>;
+  setAlias: React.Dispatch<React.SetStateAction<string>>;
+  setClabe: React.Dispatch<React.SetStateAction<string>>;
+  setAmount: React.Dispatch<React.SetStateAction<string>>;
+}
+
+// --- Component ---
 export function TransferInputItems({
-  variant,
-  size,
   className,
   ...props
 }: TransferInputProps) {
-  const [fullName, setFullName] = React.useState<string | null>('');
-  const [alias, setAlias] = React.useState<string | null>('');
-  const [clabe, setClabe] = React.useState<number | null>(0);
 
-  const [activeField, setActiveField] = useState<number | null>(null);
-  const changingStyle = (inFocus: boolean, value: string) => ({
-    color: inFocus || value ? '#F5F5F5' : '#3f3f46',
-    borderColor: inFocus ? '#BA4DE3' : '#3f3f46',
-  });
+  // --- States ---
+  const [fullName, setFullName] = React.useState<string>('');
+  const [alias, setAlias] = React.useState<string>('');
+  const [clabe, setClabe] = React.useState<string>('');
+  const [amount, setAmount] = React.useState<string>('');
+  const [error, setError] = React.useState<boolean[]>([false, false, false]); // objective: whether the submit is ready or not ; [fullName, clabe, amount]
 
-  const staticStyles = cn(txtInpVariants({ variant, size, className }));
+  const [activeField, setActiveField] = React.useState<number | null>(null); // objective: highlighting the focussed/active box/field
+
+  const { balance, setBalance } = useBalance();
+
+  const [output, setOutput] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isModelReady, setIsModelReady] = React.useState(false);
+
+  // --- Styles ---
+  const staticStyles = cn(txtInpVariants({ className }));
   const repetiveProps = {
     placeholderTextColor: '#3f3f46',
     selectionColor: '#BA4DE3',
-  }
-  
+  };
+
+  // --- reactive TextInput styles ---
+  const changingTIStyle = (inFocus: boolean, hasValue: boolean, error: boolean = false) => ({   
+      color: inFocus || hasValue ? '#F5F5F5' : 
+                    error ? '#ef4444' : '#3f3f46',
+      borderColor: inFocus ? '#BA4DE3' : 
+                    error ? '#ef4444' : '#3f3f46',
+    }
+  );
+  const changingButtonStyle = () => {
+    const allTrue: boolean = !!fullName && !!clabe && !!amount && error.every(e => !e);
+    return {
+      color: allTrue ? ' text-nubank-white' : ' text-zinc-700', //nubank-white is: #F5F5F5
+      bgColor: allTrue ? ' bg-nubank-purple-400' : ' nubank-black', // nubank-gray is: #27272a; nubank-purple-400 is: #8A05BE
+      borderColor: allTrue ? '' : ' border-zinc-700',
+  }};
+
+  // --- Functions ---
+  const activateReader = () => ReaderForTransfer({setFullName, setAlias, setClabe, setAmount}); // add a model?
+
+  /*
+  // --- transformers related code ---
+  const loadModel = async () => {
+    setIsLoading(true);
+    const srcUrl="https://huggingface.co/Xenova/vit-gpt2-image-captioning";
+    try {
+      // Load the model (done once in a useEffect)
+      await Pipeline.ImageTextGeneration.init(
+        'Xenova/vit-gpt2', // A model for image captioning
+        'onnx/model.onnx',
+        { // The fetch function is required to download model files
+          fetch: async () => {
+            // In a real app, you might want to cache the downloaded files
+            const response = await fetch(srcUrl);
+            return response.url;
+          },
+        }
+      );
+      setIsModelReady(true);
+    } catch (error)
+    {
+      console.error('Error loading model:', error);
+      if (error instanceof Error) {
+        // Handle standard Error objects
+        Alert.alert('Failed to load model: ' + error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Load model on component mount
+  React.useEffect(() => {
+    loadModel();
+  }, []);
+ */
+
+  // --- JSX ---
   return (
     <View>
+
+        <Button
+          label="use Scanner"
+          size={"lg"}
+          className="w-full mt-5 mb-3 flex flex-row items-center justify-center rounded-lg bg-nubank-purple-500"
+          labelClasses="text-lg text-nubank-white text-center font-medium"
+          onPress={activateReader}
+
+        />
+
         <TextInput
-          id='1'
-          className={staticStyles}
-          style={changingStyle(activeField === 1, fullName)}
-          onFocus={() => setActiveField(1)}
-          onBlur={() => {setActiveField(null); setFullName(fullName.toUpperCase())}}
           placeholder="Full Name"
+          className={staticStyles}
+          style={changingTIStyle(activeField === 1, !!fullName, error[0])}
+          onFocus={() => setActiveField(1)}
+          onBlur={() => {
+            setActiveField(null);
+            if (fullName) {
+              setFullName(fullName.toUpperCase());
+              setError([false, error[1], error[2]]);
+            }
+            else setError([true, error[1], error[2]]);
+          }}
           onChangeText={setFullName}
           value={fullName}
           keyboardType="default"
@@ -74,12 +144,14 @@ export function TransferInputItems({
           {...props}
         />
         <TextInput
-          id='2'
-          className={staticStyles}
-          style={changingStyle(activeField === 2, alias)}
-          onFocus={() => setActiveField(2)}
-          onBlur={() => {setActiveField(null); setAlias(alias.toUpperCase())}}
           placeholder="Alias"
+          className={staticStyles}
+          style={changingTIStyle(activeField === 2, !!alias)}
+          onFocus={() => setActiveField(2)}
+          onBlur={() => {
+            setActiveField(null); 
+            if (alias) setAlias(alias.toUpperCase());
+          }}
           onChangeText={setAlias}
           value={alias}
           keyboardType="default"
@@ -88,14 +160,16 @@ export function TransferInputItems({
           {...props}
         />
         <TextInput
-          id='3'
-          className={staticStyles}
-          style={changingStyle(activeField === 3, clabe)}
-          onFocus={() => setActiveField(3)}
-          onBlur={() => setActiveField(null)}
           placeholder="CLABE"
+          className={staticStyles}
+          style={changingTIStyle(activeField === 3, !!clabe, error[1])}
+          onFocus={() => setActiveField(3)}
+          onEndEditing={() => {
+            if (clabe.length !== 18) setError([error[0], true, error[2]]);
+            else setError([error[0], false, error[2]]);
+          }}
           onChangeText={setClabe}
-          value={clabe}
+          value={clabe || ''}
           maxLength={18}
           keyboardType="numeric"
           inputMode="numeric"
@@ -103,18 +177,59 @@ export function TransferInputItems({
           {...props}
         />
         <TextInput
-          id='4'
-          className={staticStyles + ' mb-5'}
-          style={changingStyle(activeField === 4, amount)}
-          onFocus={() => setActiveField(4)}
-          onBlur={() => setActiveField(null)}
           placeholder="Amount"
-          onChangeText={setAmount}
+          className={staticStyles + ' mb-8'}
+          style={changingTIStyle(activeField === 4, !!amount, error[2])}
+          onFocus={() => setActiveField(4)}
+          onBlur={() => {
+            setActiveField(null);
+            const parsed = amount ? parseFloat(amount.replace(',', '.')) : 0;
+            if (!isNaN(parsed) && parsed > 0) {
+              setBalance([balance[0], parsed]);
+              setError([error[0], error[1], false]);
+            }
+            else setError([error[0], error[1], true]);
+          }}
+          onChangeText={(v) => {
+            if (/^\d*[,.]?\d{0,2}$/.test(v)) {
+              setAmount(v);
+            }
+          }}
           value={amount}
           keyboardType="decimal-pad"
           inputMode="decimal"
           {...repetiveProps}
           {...props}
+        />
+        <Button
+          label="Send"
+          size={"lg"}
+          className={cn("w-1/3 mb-5 flex flex-row items-center justify-center rounded-lg border-2", changingButtonStyle().bgColor, changingButtonStyle().borderColor)}
+          labelClasses={cn("text-lg text-center font-medium", changingButtonStyle().color)}
+          onPress={() => {
+            if (error.every(e => !e) && !!fullName && !!clabe && !!amount) {
+              /* 
+              try {
+                const response = await fetch(url, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data)
+                );
+                if (!response.ok) {
+                  throw new Error(`Response status: ${response.status}`);
+                }
+                const result = await response.json();
+                router.push('/transfer/feedback')
+                console.log(result);
+              } catch (error) {
+                console.error(error.message);
+              }
+              */
+              router.push('/transfer/feedback')
+            }
+          }}
         />
     </View>
   );

@@ -12,7 +12,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "assets/**/*"
+    ],
     "ios": {
+      "infoPlist": {
+        "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera to capture photos and videos.",
+        "NSMicrophoneUsageDescription": "$(PRODUCT_NAME) needs access to your Microphone to record audio for video recordings."
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.pajozi.nubank-withCamReader"
     },
@@ -21,6 +28,10 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
       "package": "com.pajozi.nubank_withCamReader"
     },
     "web": {
@@ -29,9 +40,39 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
+      ],
       "expo-router",
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow this app to access your photos",
+          "cameraPermission": "Allow this app to access your camera",
+          "colors": {
+            "cropToolbarColor": "#000000"
+          },
+          "dark": {
+            "colors": {
+              "cropToolbarColor": "#000000"
+            }
+          }
+        }
+      ],
+      "onnxruntime-react-native",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
