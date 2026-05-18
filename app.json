@@ -48,7 +48,7 @@
             "targetSdkVersion": 34,
             "ndkVersion": "26.3.11579264",
             "buildToolsVersion": "34.0.0",
-            "minSdkVersion": 24,
+            "minSdkVersion": 24
           },
           "ios": {
             "deploymentTarget": "15.1"
@@ -57,7 +57,6 @@
       ],
       "expo-router",
       "expo-font",
-      "expo-web-browser",
       [
         "expo-image-picker",
         {
@@ -73,6 +72,8 @@
           }
         }
       ],
+      "onnxruntime-react-native",
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
