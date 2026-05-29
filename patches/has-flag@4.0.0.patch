@@ -1,0 +1,9 @@
+diff --git a/index.js b/index.js
+index b6f80b1f8ffd7658a11af977a9df3c296008d4cd..b3a0acbbade5ff2cbc9e89528b29d56a01c8d56e 100644
+--- a/index.js
++++ b/index.js
+@@ -6,3 +6,4 @@ module.exports = (flag, argv = process.argv) => {
+ 	const terminatorPosition = argv.indexOf('--');
+ 	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+ };
++// test

@@ -11,8 +11,11 @@
     "name",
     "Reader",
     "nubank clone",
-    "raact native"
+    "react native"
   ],
+  "patchedDependencies": {
+    "@gutenye/ocr-react-native@1.4.8": "patches/@gutenye__ocr-react-native@1.4.8.patch"
+  },
   "homepage": "https://github.com/Pajozim/OjoDelBanco#readme",
   "bugs": {
     "url": "https://github.com/Pajozim/OjoDelBanco/issues"
@@ -26,12 +29,16 @@
   "type": "commonjs",
   "main": "expo-router/entry",
   "scripts": {
-    "test": "test odb"
+    "test": "test odb",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "postinstall": "node scripts/apply-native-patches.js"
   },
   "dependencies": {
     "@expo/vector-icons": "~14.0.4",
     "@gutenye/ocr-react-native": "^1.4.8",
     "@react-navigation/native-stack": "^7.2.0",
+    "@types/react-native": "0.72.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -42,6 +49,7 @@
     "expo-dev-client": "~5.0.20",
     "expo-file-system": "~18.0.12",
     "expo-font": "~13.0.4",
+    "expo-image-manipulator": "~13.0.0",
     "expo-image-picker": "~16.0.6",
     "expo-linking": "~7.0.5",
     "expo-local-authentication": "~15.0.2",
@@ -50,15 +58,14 @@
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.9",
     "nativewind": "^4.2.3",
-    "onnxruntime-react-native": "^1.24.3",
     "patch-package": "^8.0.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.7",
     "react-native-gesture-handler": "~2.20.2",
-    "react-native-reanimated": "~3.16.1",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
+    "react-native-worklets": "~0.4.0",
     "tailwind-merge": "^2.6.1"
   },
   "devDependencies": {
@@ -69,22 +76,17 @@
     "@types/react": "~18.3.1",
     "@types/react-dom": "~18.3.1",
     "@types/react-test-renderer": "^18.3.1",
+    "babel-plugin-transform-import-meta": "^2.3.3",
     "jest": "^29.7.0",
     "jest-expo": "~52.0.0",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.6.14",
-    "react-test-renderer": "18.2.0",
+    "react-test-renderer": "18.3.1",
     "tailwindcss": "^3.4.19",
     "typescript": "~5.9.3"
   },
   "jest": {
     "preset": "jest-expo"
   },
-  "trustedDependencies": [],
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "react-native-reanimated",
-      "react-native-worklets"
-    ]
-  }
+  "trustedDependencies": []
 }

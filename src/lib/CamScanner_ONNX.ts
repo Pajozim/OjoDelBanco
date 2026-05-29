@@ -1,10 +1,13 @@
 import * as ImagePicker from 'expo-image-picker';
-import { Alert, Platform, NativeModules } from 'react-native';
 import { StateSetterBundle } from '../components/Text-Input-Items';
 import Ocr from '@gutenye/ocr-react-native';
 import { Asset } from 'expo-asset';
+import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
+import { getOcr } from './onnx_ocr';
 
 export default async function ReaderForTransfer({setFullName, setAlias, setClabe, setAmount}: StateSetterBundle): Promise<void> {
+  
+  /*
   // Load onnxruntime dynamically to avoid crash if native module is missing
   let ort: any = null;
   try {
@@ -13,12 +16,13 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
       if (NativeModules.Onnxruntime) {
         ort = require('onnxruntime-react-native');
       } else {
-        Alert.alert('Onnxruntime native module not found. Some OCR features may not work.');
+        console.error('Onnxruntime native module not found. Some OCR features may not work.');
       }
     }
   } catch (e) {
-    Alert.alert('Failed to load onnxruntime-react-native:', JSON.stringify(e));
+    console.error('Failed to load onnxruntime-react-native:', JSON.stringify(e));
   }
+  */
 
   // No permissions request is necessary for launching the image library.
   // Manually request permissions for videos on iOS when `allowsEditing` is set to `false`
@@ -29,30 +33,30 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
   if (!permissionResult.granted) {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
     if (!permissionResult.granted) {
-      Alert.alert('Permission not granted. Aborting ...');
+      console.error('Permission not granted. Aborting ...');
       return;
     }
   }
 
   const takenImage = await ImagePicker.launchCameraAsync({allowsEditing: true});
   if (takenImage.canceled) {
-    Alert.alert('Cancelled', 'You did not select an image.');
+    console.error('Cancelled', 'You did not select an image.');
     return;
   }
 
   const result = takenImage ?? await ImagePicker.getPendingResultAsync();
   // No pending result
   if (result === null) {
-    Alert.alert('No pending result', 'Try again.');
+    console.error('No pending result', 'Try again.');
     return;
   }
   // Error occurred
   else if (result && 'code' in result && 'message' in result) {
-    Alert.alert('Error', result.message as string); // ✅
+    console.error('Error', result.message as string); // ✅
   }
   // User cancelled (or success with assets)
   else if (result.canceled) {
-    Alert.alert('Cancelled', 'You did not select an image.');
+    console.error('Cancelled', 'You did not select an image.');
     return;
   }
 
@@ -64,35 +68,44 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
 
   // --- https://github.com/gutenye/ocr
 
-  console.log("Ante GutenOCR'S -- Image URI", ImgURI);
+  console.log("Ante GutenOCR'S -- Image URI and widths and heights", ImgURI, result.assets[0].width, result.assets[0].height, result.assets[0].fileSize);
 
-  const detModel: Asset = await Asset.fromModule(require('../assets/models/ch_PPOCRv3_det_infer.onnx')).downloadAsync();
-  const recModel: Asset = await Asset.fromModule(require('../assets/models/ch_PPOCRv3_rec_infer.onnx')).downloadAsync();
-  const charDict = require('../assets/models/character_dict.json');
+  const detModel: Asset = await Asset.fromModule(require('../../assets/models/ch_PP-OCRv4_det_infer.onnx')).downloadAsync();
+  const recModel: Asset = await Asset.fromModule(require('../../assets/models/ch_PP-OCRv4_rec_infer.onnx')).downloadAsync();
+  const charDictAsset: Asset = await Asset.fromModule(require('../../assets/models/character_dict.dict')).downloadAsync();
 
-  //const charDict = await getDictionaryUri();
+  const stripFileUri = (uri: string) => uri.replace(/^file:\/\//, '');
 
   try {
-    const ocr = await Ocr.create({
-      models: {
-        detectionPath: detModel.uri,
-        recognitionPath: recModel.uri,
-        dictionaryPath: charDict,
-      },
-      isDebug: true,
-      recognitionImageMaxSize: 320,
-      detectionThreshold: 0.8,
-      detectionBoxThreshold: 0.6,
-      detectionUnclipRatiop: 1.5,
-      detectionUseDilate: false,
-      detectionUsePolygonScore: false,
-      useDirectionClassify: false
+
+    console.log("Ante image resizing...");
+    const context = ImageManipulator.manipulate(ImgURI);
+    context.resize({ width: 1000 });
+    const renderedImage = await context.renderAsync();
+    const resizedImg = await renderedImage.saveAsync({
+      format: SaveFormat.JPEG,
+      compress: 1,
     });
-    const readResult = await ocr.detect(ImgURI);
+    // Use resizeResult.uri for OCR
+    console.log('Resized image URI:', resizedImg.uri);
+    console.log('New dimensions:', resizedImg.width, 'x', resizedImg.height);
+
+    if (global.gc) global.gc();
+
+    console.log("GutenOCR models", detModel, recModel, charDictAsset);
+    const ocr = await getOcr({
+      detectionModelPath: stripFileUri(detModel.localUri || detModel.uri),
+      recognitionModelPath: stripFileUri(recModel.localUri || recModel.uri),
+      classifierModelPath: stripFileUri(recModel.localUri || recModel.uri),
+      dictionaryPath: stripFileUri(charDictAsset.localUri || charDictAsset.uri),
+    });
+    const readResult = await ocr.detect(stripFileUri(resizedImg.uri));
+
     const onlyText = readResult.map((item) => item.text)
     console.log("GutenOCR result", onlyText.join(' '));
+
   } catch (e: any) {
-    console.error('GutenOCR failed:', e.message);
+    console.error('Image resizing or GutenOCR failed:', e.message);
   }
 
   return;

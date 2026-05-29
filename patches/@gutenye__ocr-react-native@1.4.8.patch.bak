@@ -1,0 +1,36 @@
+--- a/android/cpp-adapter.cpp
++++ b/android/cpp-adapter.cpp
+@@ -54,9 +54,4 @@
+   _debugOutputDir = std::string(cDebugOuputDir);
+   env->ReleaseStringUTFChars(assetDir, cAssetDir);
+   env->ReleaseStringUTFChars(debugOutputDir, cDebugOuputDir);
+-
+-  // JavaVM *java_vm;
+-  // jobject java_object;
+-  // env->GetJavaVM(&java_vm);
+-  // java_object = env->NewGlobalRef(thiz);
+ }
+--- a/android/src/main/java/com/ocr/RNOcrModule.kt
++++ b/android/src/main/java/com/ocr/RNOcrModule.kt
+@@ -33,8 +33,6 @@
+   override fun install() {
+     try {
+       val jsContext = getReactApplicationContext().getJavaScriptContextHolder()
+-      // val jsCallInvokerHolder = context.catalystInstance.jsCallInvokerHolder as
+-      // CallInvokerHolderImpl
+ 
+       if (jsContext === null || jsContext.get() == 0L) {
+         println("GutenOCR: JSI Runtime is not available in legacy chrome console")
+--- /dev/null
++++ b/android/src/main/java/com/ocr/RNOcrSpec.kt
+@@ -0,0 +1,10 @@
++package com.ocr
++
++import com.facebook.react.bridge.ReactApplicationContext
++import com.facebook.react.bridge.ReactContextBaseJavaModule
++
++abstract class RNOcrSpec internal constructor(context: ReactApplicationContext) :
++    ReactContextBaseJavaModule(context) {
++
++  abstract fun install()
++}

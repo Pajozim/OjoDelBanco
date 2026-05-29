@@ -1,6 +1,6 @@
 import React from 'react';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { TextInput, Alert, View, type TextInputProps, Text } from 'react-native';
+import { TextInput, View, type TextInputProps } from 'react-native';
 import { useBalance } from '../context/fake_balance';
 import { Button } from './Button';
 import { router } from 'expo-router';

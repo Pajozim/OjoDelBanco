@@ -1,6 +1,6 @@
 import { Button } from "@/src/components/Button";
 import { useAuth } from "@/src/context/auth.context";
-import { Alert, Image, Text, View } from "react-native";
+import { Alert, Image, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useEffect } from "react";
 import { router } from "expo-router";
