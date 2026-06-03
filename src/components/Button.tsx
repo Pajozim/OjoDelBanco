@@ -54,6 +54,7 @@ interface ButtonProps
     VariantProps<typeof buttonVariants> {
   label: string;
   labelClasses?: string;
+  className?: string;
   icon?: keyof typeof MaterialIcons.glyphMap;
   iconPosition?: 'left' | 'right';
 }

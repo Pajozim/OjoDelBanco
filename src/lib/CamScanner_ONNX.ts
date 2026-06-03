@@ -1,28 +1,11 @@
 import * as ImagePicker from 'expo-image-picker';
 import { StateSetterBundle } from '../components/Text-Input-Items';
-import Ocr from '@gutenye/ocr-react-native';
 import { Asset } from 'expo-asset';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
-import { getOcr } from './onnx_ocr';
+import { getOcr } from './GutenyeOCR';
+import postProcessing from './postprocess';
 
-export default async function ReaderForTransfer({setFullName, setAlias, setClabe, setAmount}: StateSetterBundle): Promise<void> {
-  
-  /*
-  // Load onnxruntime dynamically to avoid crash if native module is missing
-  let ort: any = null;
-  try {
-    if (Platform.OS !== 'web') {
-      // Check if the native module exists before requiring
-      if (NativeModules.Onnxruntime) {
-        ort = require('onnxruntime-react-native');
-      } else {
-        console.error('Onnxruntime native module not found. Some OCR features may not work.');
-      }
-    }
-  } catch (e) {
-    console.error('Failed to load onnxruntime-react-native:', JSON.stringify(e));
-  }
-  */
+export default async function ReaderForTransfer({setFullName, setAlias, setClabe, setAmount, setImageURI}: StateSetterBundle): Promise<void> {
 
   // No permissions request is necessary for launching the image library.
   // Manually request permissions for videos on iOS when `allowsEditing` is set to `false`
@@ -68,7 +51,7 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
 
   // --- https://github.com/gutenye/ocr
 
-  console.log("Ante GutenOCR'S -- Image URI and widths and heights", ImgURI, result.assets[0].width, result.assets[0].height, result.assets[0].fileSize);
+  //console.log("Ante GutenOCR'S -- Image URI and widths and heights", ImgURI, result.assets[0].width, result.assets[0].height, result.assets[0].fileSize);
 
   const detModel: Asset = await Asset.fromModule(require('../../assets/models/ch_PP-OCRv4_det_infer.onnx')).downloadAsync();
   const recModel: Asset = await Asset.fromModule(require('../../assets/models/ch_PP-OCRv4_rec_infer.onnx')).downloadAsync();
@@ -78,7 +61,7 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
 
   try {
 
-    console.log("Ante image resizing...");
+    //console.log("Ante image resizing...");
     const context = ImageManipulator.manipulate(ImgURI);
     context.resize({ width: 1000 });
     const renderedImage = await context.renderAsync();
@@ -87,12 +70,11 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
       compress: 1,
     });
     // Use resizeResult.uri for OCR
-    console.log('Resized image URI:', resizedImg.uri);
-    console.log('New dimensions:', resizedImg.width, 'x', resizedImg.height);
+    //console.log('Resized image URI:', resizedImg.uri);
+    //console.log('New dimensions:', resizedImg.width, 'x', resizedImg.height);
 
     if (global.gc) global.gc();
 
-    console.log("GutenOCR models", detModel, recModel, charDictAsset);
     const ocr = await getOcr({
       detectionModelPath: stripFileUri(detModel.localUri || detModel.uri),
       recognitionModelPath: stripFileUri(recModel.localUri || recModel.uri),
@@ -101,8 +83,16 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
     });
     const readResult = await ocr.detect(stripFileUri(resizedImg.uri));
 
-    const onlyText = readResult.map((item) => item.text)
-    console.log("GutenOCR result", onlyText.join(' '));
+    const onlyText: string[] = readResult.map((item) => item.text)
+
+    const pp = postProcessing(onlyText);
+
+    setFullName(pp["name"]);
+    setAlias(pp["alias"]);
+    setClabe(pp["clabe"]);
+    setAmount(pp["amount"]);
+    
+    setImageURI(resizedImg.uri);
 
   } catch (e: any) {
     console.error('Image resizing or GutenOCR failed:', e.message);

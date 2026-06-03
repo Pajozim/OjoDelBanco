@@ -17,6 +17,7 @@ interface TransferInputProps
   extends TextInputProps,
     VariantProps<typeof txtInpVariants> {
       className?: string
+      setImageURI: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface StateSetterBundle {
@@ -24,11 +25,13 @@ export interface StateSetterBundle {
   setAlias: React.Dispatch<React.SetStateAction<string>>;
   setClabe: React.Dispatch<React.SetStateAction<string>>;
   setAmount: React.Dispatch<React.SetStateAction<string>>;
+  setImageURI: React.Dispatch<React.SetStateAction<string>>
 }
 
 // --- Component ---
 export function TransferInputItems({
   className,
+  setImageURI,
   ...props
 }: TransferInputProps) {
 
@@ -42,10 +45,6 @@ export function TransferInputItems({
   const [activeField, setActiveField] = React.useState<number | null>(null); // objective: highlighting the focussed/active box/field
 
   const { balance, setBalance } = useBalance();
-
-  const [output, setOutput] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isModelReady, setIsModelReady] = React.useState(false);
 
   // --- Styles ---
   const staticStyles = cn(txtInpVariants({ className }));
@@ -71,44 +70,7 @@ export function TransferInputItems({
   }};
 
   // --- Functions ---
-  const activateReader = () => ReaderForTransfer({setFullName, setAlias, setClabe, setAmount}); // add a model?
-
-  /*
-  // --- transformers related code ---
-  const loadModel = async () => {
-    setIsLoading(true);
-    const srcUrl="https://huggingface.co/Xenova/vit-gpt2-image-captioning";
-    try {
-      // Load the model (done once in a useEffect)
-      await Pipeline.ImageTextGeneration.init(
-        'Xenova/vit-gpt2', // A model for image captioning
-        'onnx/model.onnx',
-        { // The fetch function is required to download model files
-          fetch: async () => {
-            // In a real app, you might want to cache the downloaded files
-            const response = await fetch(srcUrl);
-            return response.url;
-          },
-        }
-      );
-      setIsModelReady(true);
-    } catch (error)
-    {
-      console.error('Error loading model:', error);
-      if (error instanceof Error) {
-        // Handle standard Error objects
-        Alert.alert('Failed to load model: ' + error.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Load model on component mount
-  React.useEffect(() => {
-    loadModel();
-  }, []);
- */
+  const activateReader = () => ReaderForTransfer({setFullName, setAlias, setClabe, setAmount, setImageURI}); // add a model?
 
   // --- JSX ---
   return (

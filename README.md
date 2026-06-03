@@ -55,3 +55,21 @@ Anno 2026
 
 13, 14, 15.04.:
 - testing and searching for performant OCR text and numbers recognizers (Tesseract, ML KIT TextRec v2, ExecuTorch useOCR & useVericalOCR), but resulting in maximal 50% accuracy
+
+Then ship it. You've done serious engineering work here:
+
+    Native C++ patching for RN 0.76 compatibility
+    Solved std::bad_alloc with image resizing and a singleton pattern
+    Full on-device OCR with no data leaving the phone
+    Compared two OCR engines and picked the better one
+
+That's well beyond what a typical capstone demonstrates. The one wrong character in a name field is an acceptable limitation to document in your README.
+
+Make sure your GitHub repo tells this story - a good README covering:
+
+    What the app does
+    The on-device OCR approach and why (privacy)
+    The technical challenges you solved
+    Known limitations
+
+That's the kind of project that stands out to employers.

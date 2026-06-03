@@ -37,6 +37,7 @@
   "dependencies": {
     "@expo/vector-icons": "~14.0.4",
     "@gutenye/ocr-react-native": "^1.4.8",
+    "@react-native-ml-kit/text-recognition": "^2.0.0",
     "@react-navigation/native-stack": "^7.2.0",
     "@types/react-native": "0.72.2",
     "class-variance-authority": "^0.7.1",

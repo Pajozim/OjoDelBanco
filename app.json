@@ -22,7 +22,8 @@
         "NSMicrophoneUsageDescription": "$(PRODUCT_NAME) needs access to your Microphone to record audio for video recordings."
       },
       "supportsTablet": true,
-      "bundleIdentifier": "com.pajozi.nubank-withCamReader"
+      "bundleIdentifier": "com.pajozi.nubank-withCamReader",
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
@@ -74,6 +75,7 @@
         }
       ]
     ],
+    "jsEngine": "hermes",
     "experiments": {
       "typedRoutes": true
     },

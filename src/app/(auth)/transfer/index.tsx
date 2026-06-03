@@ -6,10 +6,13 @@ import { Header } from "../../../components/Header";
 import { TextCard } from "../../../components/Text-Card";
 import { useBalance } from "../../../context/fake_balance";
 import { TransferInputItems } from "../../../components/Text-Input-Items";
+import DisplayImg from "../../../components/ImgDisplay";
 
 export default function Transfer() {
   const scrollViewRef = useRef<ScrollView>(null);  // ← Create reference
   const { balance } = useBalance()
+
+  const [imageURI, setImageURI] = React.useState<string>("");
 
   return (
     <KeyboardAvoidingView
@@ -50,9 +53,14 @@ export default function Transfer() {
           </View>
         </TextCard>
 
-          <TextCard label="" chevronRight={false} isBorderBottom={true} className="flex items-center-safe justify-center">
-            <TransferInputItems className="w-full" />
-          </TextCard>
+          <ScrollView>
+
+            <DisplayImg imageURI={imageURI}/>
+
+            <TextCard label="" chevronRight={false} isBorderBottom={true} className="flex items-center-safe justify-center">
+              <TransferInputItems className="w-full" setImageURI={setImageURI} />
+            </TextCard>
+          </ScrollView>
         
       </ScrollView>
     </KeyboardAvoidingView>
