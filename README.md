@@ -1,5 +1,6 @@
 # Ojo del Banco
 
+<<<<<<< HEAD
 Anno 2026
 
 17.03.: 
@@ -16,6 +17,27 @@ Anno 2026
 24.03.:# Ojo del Banco
 
 Anno 2026
+=======
+A banking app module that extracts a handwritten transaction data placard and automatically populates the read data into the corresponding input fields. Currently optimized for Mexican banking formats.
+
+<p>
+    <video src="assets/media/OdB demo.webm" width="90%" controls autoplay muted loop></video>
+</p>
+
+Impetus:
+In Mexico, small-scale vendors often exclude modern digital payments because the commissions on credit, debit, and NFC transactions carve into their already thin profit margins. This forces them to remain cash-only or to rely on direct bank transfers which require manual entries by the buyer.
+
+Implementation:
+I built Ojo del Banco to streamline the completion of a direct transfer protocol. An on-device GutenyeOCR (PaddleOCR and ONNX Runtime) module scans handwritten CLABE numbers and beneficiary names into the banking app's input fields. The user verifies the information before submitting the transaction data.
+
+Roadmap:
+- enabling generated QR codes by the vendors for phone to phone handshake
+- enabling a NFC pipeline
+
+Credits:
+- https://github.com/jvittor1/nubank-clone
+- https://github.com/gutenye/ocr
+>>>>>>> 871322f (0626: update for EAS build)
 
 17.03.: 
 - installing nubank clone from https://github.com/jvittor1/nubank-clone.git
@@ -24,7 +46,7 @@ Anno 2026
 - modifying the UI of nubank clone (some design and all text translated into english)
 - creation of a transfer route (i.e. /(auth)/transfer/index.tsx)
 - setting up a fake-balance.tsx with React Context and Context.Provider
-
+OjodBanco Demonstration
 23.03.:
 - transfer route only via Transfer (disabled the other items)
 

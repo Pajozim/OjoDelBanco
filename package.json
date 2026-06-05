@@ -2,7 +2,7 @@
   "name": "ojodelbanco",
   "version": "1.1.0",
   "private": true,
-  "description": "nubank clone from jvittor1 with added Camera/Scanner/Reader program for extracting Transfer Data (i.e. CLABE and name)",
+  "description": "nubank ui from jvittor1, added gutenyeOCR module for extracting handwritten transaction data",
   "keywords": [
     "Image",
     "Text",
@@ -37,9 +37,7 @@
   "dependencies": {
     "@expo/vector-icons": "~14.0.4",
     "@gutenye/ocr-react-native": "^1.4.8",
-    "@react-native-ml-kit/text-recognition": "^2.0.0",
     "@react-navigation/native-stack": "^7.2.0",
-    "@types/react-native": "0.72.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -66,7 +64,7 @@
     "react-native-gesture-handler": "~2.20.2",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
-    "react-native-worklets": "~0.4.0",
+    "react-native-reanimated": "~3.17.0",
     "tailwind-merge": "^2.6.1"
   },
   "devDependencies": {

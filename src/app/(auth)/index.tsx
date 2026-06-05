@@ -1,15 +1,11 @@
 import { ScrollView, Text, View } from "react-native";
 import { Header } from "../../components/Header";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FlatList } from "react-native-gesture-handler";
 import { ListItems } from "../../components/List-Items";
 import { Card } from "../../components/Card";
 import { TextCard } from "../../components/Text-Card";
 import { useBalance } from "../../context/fake_balance";
-import {
-  LearnMoreCard,
-  LearnMoreCardList,
-} from "../../components/Learn-More-Card";
+import { LearnMoreCardList } from "../../components/Learn-More-Card";
 
 export default function Index() {
 

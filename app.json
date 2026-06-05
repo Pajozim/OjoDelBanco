@@ -34,7 +34,7 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.pajozi.nubank_withCamReader"
+      "package": "com.pajozi.ojodelbanco"
     },
     "web": {
       "bundler": "metro",

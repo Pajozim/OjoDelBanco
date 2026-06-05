@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { ListItem } from "../utils/list-items";
 import { router, Href } from "expo-router";
+import { cn } from "../lib/utils";
 
 export type iconNameProps = keyof typeof MaterialIcons.glyphMap;
 
@@ -44,15 +45,20 @@ export function ListItems() {
 
 export function Item({ label, icon, link }: ItemCardProps) {
   return (
-      <Pressable onPress={() => router.push(link)}>
+    <Pressable onPress={() => router.push(link)}>
+      {({ pressed }) => (
         <View className="flex-col items-center gap-2">
-          <View className="bg-nubank-gray h-24 w-24 items-center justify-center rounded-full">
+          <View className={cn(
+            "h-24 w-24 items-center justify-center rounded-full",
+            pressed ? "bg-nubank-purple-400" : "bg-nubank-gray"
+          )}>
             <MaterialIcons name={icon} size={24} color="white" />
           </View>
           <Text className="text-nubank-white max-w-24 text-center text-xl font-medium">
             {label}
           </Text>
         </View>
-      </Pressable> 
+      )}
+    </Pressable>
   );
 }
