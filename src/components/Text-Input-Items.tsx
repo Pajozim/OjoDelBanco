@@ -5,7 +5,7 @@ import { useBalance } from '../context/fake_balance';
 import { Button } from './Button';
 import { router } from 'expo-router';
 import { cn } from '../lib/utils';
-import ReaderForTransfer from '../lib/CamScanner_ONNX';
+import ReaderForTransfer from '../lib/Scanner';
 
 // --- Variants ---
 const txtInpVariants = cva(

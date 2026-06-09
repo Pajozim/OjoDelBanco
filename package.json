@@ -14,7 +14,9 @@
     "react native"
   ],
   "patchedDependencies": {
-    "@gutenye/ocr-react-native@1.4.8": "patches/@gutenye__ocr-react-native@1.4.8.patch"
+    "@gutenye/ocr-react-native@1.4.8": "patches/@gutenye%2Focr-react-native@1.4.8.patch",
+    "react-native-css-interop@0.2.4": "patches/react-native-css-interop@0.2.4.patch",
+    "expo-modules-core@2.2.3": "patches/expo-modules-core@2.2.3.patch"
   },
   "homepage": "https://github.com/Pajozim/OjoDelBanco#readme",
   "bugs": {

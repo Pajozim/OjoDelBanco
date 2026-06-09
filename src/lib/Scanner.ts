@@ -35,7 +35,7 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
   }
   // Error occurred
   else if (result && 'code' in result && 'message' in result) {
-    console.error('Error', result.message as string); // ✅
+    console.error('Error', result.message as string);
   }
   // User cancelled (or success with assets)
   else if (result.canceled) {
@@ -51,8 +51,7 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
 
   // --- https://github.com/gutenye/ocr
 
-  //console.log("Ante GutenOCR'S -- Image URI and widths and heights", ImgURI, result.assets[0].width, result.assets[0].height, result.assets[0].fileSize);
-
+  // Model & Char Dict Paths
   const detModel: Asset = await Asset.fromModule(require('../../assets/models/ch_PP-OCRv4_det_infer.onnx')).downloadAsync();
   const recModel: Asset = await Asset.fromModule(require('../../assets/models/ch_PP-OCRv4_rec_infer.onnx')).downloadAsync();
   const charDictAsset: Asset = await Asset.fromModule(require('../../assets/models/character_dict.dict')).downloadAsync();
@@ -61,7 +60,7 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
 
   try {
 
-    //console.log("Ante image resizing...");
+    // Image Manipulation
     const context = ImageManipulator.manipulate(ImgURI);
     context.resize({ width: 1000 });
     const renderedImage = await context.renderAsync();
@@ -69,12 +68,11 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
       format: SaveFormat.JPEG,
       compress: 1,
     });
-    // Use resizeResult.uri for OCR
-    //console.log('Resized image URI:', resizedImg.uri);
-    //console.log('New dimensions:', resizedImg.width, 'x', resizedImg.height);
 
+    // global garbage collection
     if (global.gc) global.gc();
 
+    // starting gutenyeOCR
     const ocr = await getOcr({
       detectionModelPath: stripFileUri(detModel.localUri || detModel.uri),
       recognitionModelPath: stripFileUri(recModel.localUri || recModel.uri),
@@ -85,13 +83,16 @@ export default async function ReaderForTransfer({setFullName, setAlias, setClabe
 
     const onlyText: string[] = readResult.map((item) => item.text)
 
+    // Post Processing
     const pp = postProcessing(onlyText);
 
+    // Set values
     setFullName(pp["name"]);
     setAlias(pp["alias"]);
     setClabe(pp["clabe"]);
     setAmount(pp["amount"]);
     
+    // Set image for display on the transfer page
     setImageURI(resizedImg.uri);
 
   } catch (e: any) {
