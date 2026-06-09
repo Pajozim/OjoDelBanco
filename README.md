@@ -4,6 +4,7 @@ A banking app module that extracts a handwritten transaction data placard and au
 
 <p>
     <video src="assets/media/OdB demo.webm" width="90%" controls autoplay muted loop></video>
+    [OdB demo.webm](https://github.com/user-attachments/assets/979f7035-adc3-43c8-acfe-ef993b1e5973)
 </p>
 
 ---
