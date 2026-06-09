@@ -5,7 +5,7 @@ A banking app module that extracts a handwritten transaction data placard and au
 <video src="https://github.com/user-attachments/assets/979f7035-adc3-43c8-acfe-ef993b1e5973" width="90%" controls autoplay muted loop></video>
 
 ---
-# Motivation
+## Motivation
 
 Impetus:
 In Mexico, small-scale vendors often exclude modern digital payments because the commissions on credit, debit, and NFC transactions carve into their already thin profit margins. This forces them to remain cash-only or to rely on direct bank transfers which require manual entries by the buyer.
@@ -20,39 +20,40 @@ I built Ojo del Banco to streamline the completion of a direct transfer protocol
 ### Android 
 Download and install the latest **[.apk file here](https://github.com/your-username/your-repo/releases)** to run the demo app directly on your device. Go to "Transfer" and click on "use Scanner" to have the full experience of gutenyeOCR/paddleOCR and ONNX-runtime module.
 
-Notes:
-- Security Warnings: Most Android phones will block "Unknown Apps" by default. You might want to activate "Allow from this source" in the settings to install it. Alternative would be online emulators (e.g.: appetize.io).
-- iOS Limitations: Keep in mind that a "standalone" file for iOS users (like an .ipa) is not easy because of Apple's code-signing restrictions. 
+    Notes: - Security Warnings: Most Android phones will block "Unknown Apps" by default. You might want to activate "Allow from this source" in the settings to install it. Alternative would be online emulators (e.g.: appetize.io).
+    - iOS Limitations: Keep in mind that a "standalone" file for iOS users (like an .ipa) is not easy because of Apple's code-signing restrictions. 
 
 ### Development Setup
 If you want to run the app from the source code:
-1. `npm/bun install` (note: There were changes done in some of the node_modules - see: ./patches)
+1. `npm/bun install`
 2. `npx/bunx expo prebuild`
 3. `npx/bunx expo run:android`
+
 (!!!!!!!!!!!!!!!! TEST IT BEFORE TEST IT BEFORE TEST IT BEFORE !!!!!!!!!!!!!!!!)
 
 ---
 
 ## Usage
 
-- Customization:
+### Customization:
 1. Image format (only JPEG or PNG) or manipulation demands can be changed on block "// Image Manipulation" in:
 > `./src/lib/OCR_&_ONNX.ts`
 
 2. Knowing there are some pattern that can be implemented in post-processing (after text extraction from photograph):
 `./src/lib/postprocess.ts`
 
-- Localization:
+### Localization:
 1. The module is currently optimized for the Mexican market. To support other regions, update the character dictionary at:
 >`./assets/models/character_dict.dict.`
 or
 >`./assets/models/___character_dict copy.json` (original file as backup)
 
-- Performance Tuning:
+### Performance Tuning:
 1. Depending on how the results come out (i.e. the accuracy of extracting text of a photograph), you may change the parameters in:
 >`./src/lib/GutenyeOCR.ts`
 
-Legend (([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuration-options#platform-specific-options))):
+Legend ([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuration-options#platform-specific-options)):
+
     -+ isDebug: false,
         ==> enables debug logging and output (default: false)
     
@@ -106,7 +107,7 @@ Legend (([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuratio
         ==> applied to each detected text region before recognition
 
 
-- Model Configuration:
+### Model Configuration:
 >`./src/lib/GutenyeOCR.ts`
 
 Legend (([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuration-options#core-configuration-options))):
@@ -126,7 +127,7 @@ Legend (([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuratio
 when different models were implemented, then changes has to be hardcoded on "// starting gutenyeOCR" in:
 >`./src/lib/Scanner.ts`
 
-- UI & UX Customization:
+### UI & UX Customization:
 >`./src/components/`
 >`./src/context/`
 
