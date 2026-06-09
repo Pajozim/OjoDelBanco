@@ -1,0 +1,14 @@
+diff --git a/android/build.gradle b/android/build.gradle
+index 05c45a62097ae7c60d92ed146e6d8875f62a7916..e5f780f508b12bc4573954db16e87938c6be9da8 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -122,7 +122,8 @@ android {
+         "1.9.24": "1.5.14",
+         "1.9.25": "1.5.15",
+       ]
+-      kotlinCompilerExtensionVersion = versionsMap[kotlinVersion()]
++      //kotlinCompilerExtensionVersion = versionsMap[kotlinVersion()]
++      kotlinCompilerExtensionVersion = "1.5.15"
+     }
+   }
+ 

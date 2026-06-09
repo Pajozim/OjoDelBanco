@@ -1,3 +1,20 @@
+diff --git a/node_modules/@gutenye/ocr-react-native/.bun-tag-83605db10faa6632 b/.bun-tag-83605db10faa6632
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/android/build.gradle b/android/build.gradle
+index eab7d8c7c4d1ea89bd336c4712468487dbcb3d43..9e13f8946ab79a7d3156d413f7ec17aae8ae3d5d 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -150,7 +150,8 @@ dependencies {
+   // For < 0.71, this will be from the local maven repo
+   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
+   //noinspection GradleDynamicVersion
+-  implementation "com.facebook.react:react-native:+"
++  //implementation "com.facebook.react:react-native:+"
++  implementation "com.facebook.react:react-android:$version"
+   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+ }
+ 
 diff --git a/android/cpp-adapter.cpp b/android/cpp-adapter.cpp
 index 74bfb293446a6ed4f6590acd84587787d9367b22..cff151036413294f3f6f30b4cfd38fa741dfabac 100644
 --- a/android/cpp-adapter.cpp
@@ -25,19 +42,3 @@ index b4eff4873058aba5d94febe4cc2a1bf7ac5b9ba8..26fb963d8e291e5e7310d26a793368ec
  
        if (jsContext === null || jsContext.get() == 0L) {
          println("GutenOCR: JSI Runtime is not available in legacy chrome console")
-diff --git a/node_modules/@gutenye/ocr-react-native/android/src/main/java/com/ocr/RNOcrSpec.kt b/android/src/main/java/com/ocr/RNOcrSpec.kt
-new file mode 100644
-index 0000000000000000000000000000000000000000..1feaf6f5a3db33f82fa23a27dbb5c6c4a65ffea1
---- /dev/null
-+++ b/android/src/main/java/com/ocr/RNOcrSpec.kt
-@@ -0,0 +1,10 @@
-+package com.ocr
-+
-+import com.facebook.react.bridge.ReactApplicationContext
-+import com.facebook.react.bridge.ReactContextBaseJavaModule
-+
-+abstract class RNOcrSpec internal constructor(context: ReactApplicationContext) :
-+    ReactContextBaseJavaModule(context) {
-+
-+  abstract fun install()
-+}

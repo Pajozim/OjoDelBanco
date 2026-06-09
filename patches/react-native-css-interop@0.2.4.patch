@@ -1,0 +1,15 @@
+diff --git a/babel.js b/babel.js
+index d84e52b5ccf59123bb7aee019a853724b20ef99f..0e15e216c6d3dbee90ec12b24029c4342bec0b9c 100644
+--- a/babel.js
++++ b/babel.js
+@@ -9,8 +9,7 @@ module.exports = function () {
+           importSource: "react-native-css-interop",
+         },
+       ],
+-      // Use this plugin in reanimated 4 and later
+-      "react-native-worklets/plugin",
++      // removed: "react-native-worklets/plugin"
+     ],
+   };
+ };
+\ No newline at end of file
