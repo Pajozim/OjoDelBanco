@@ -10,7 +10,7 @@ index eab7d8c7c4d1ea89bd336c4712468487dbcb3d43..a493b8191c0bcdac2454dad52b68fd81
 +++ b/android/build.gradle
 @@ -150,7 +150,8 @@ dependencies {
    // For < 0.71, this will be from the local maven repo
-   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
+   // For > 0.71, this will be replaced by `com.facebook.react:react-android` by react gradle plugin
    //noinspection GradleDynamicVersion
 -  implementation "com.facebook.react:react-native:+"
 +  //implementation "com.facebook.react:react-native:+"
