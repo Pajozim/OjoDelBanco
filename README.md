@@ -1,6 +1,5 @@
 # Ojo del Banco
 
-=======
 A banking app module that extracts a handwritten transaction data placard and automatically populates the read data into the corresponding input fields. Currently optimized for Mexican banking formats.
 
 <p>
@@ -8,7 +7,6 @@ A banking app module that extracts a handwritten transaction data placard and au
 </p>
 
 ---
-=======
 # Motivation
 
 Impetus:
@@ -18,7 +16,6 @@ Implementation:
 I built Ojo del Banco to streamline the completion of a direct transfer protocol. An on-device GutenyeOCR (PaddleOCR and ONNX Runtime) module scans handwritten CLABE numbers and beneficiary names into the banking app's input fields. The user verifies the information before submitting the transaction data.
 
 ---
-=======
 
 ## Quick Start
 
@@ -37,7 +34,6 @@ If you want to run the app from the source code:
 (!!!!!!!!!!!!!!!! TEST IT BEFORE TEST IT BEFORE TEST IT BEFORE !!!!!!!!!!!!!!!!)
 
 ---
-=======
 
 ## Usage
 
@@ -138,7 +134,6 @@ when different models were implemented, then changes has to be hardcoded on "// 
 
 
 ---
-=======
 
 ## Contributing
 
