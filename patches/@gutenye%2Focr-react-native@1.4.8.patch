@@ -1,8 +1,11 @@
 diff --git a/node_modules/@gutenye/ocr-react-native/.bun-tag-83605db10faa6632 b/.bun-tag-83605db10faa6632
 new file mode 100644
 index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/@gutenye/ocr-react-native/.bun-tag-feb3620a96ae30d3 b/.bun-tag-feb3620a96ae30d3
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/android/build.gradle b/android/build.gradle
-index eab7d8c7c4d1ea89bd336c4712468487dbcb3d43..9e13f8946ab79a7d3156d413f7ec17aae8ae3d5d 100644
+index eab7d8c7c4d1ea89bd336c4712468487dbcb3d43..a493b8191c0bcdac2454dad52b68fd81c99f2c89 100644
 --- a/android/build.gradle
 +++ b/android/build.gradle
 @@ -150,7 +150,8 @@ dependencies {
@@ -11,7 +14,7 @@ index eab7d8c7c4d1ea89bd336c4712468487dbcb3d43..9e13f8946ab79a7d3156d413f7ec17aa
    //noinspection GradleDynamicVersion
 -  implementation "com.facebook.react:react-native:+"
 +  //implementation "com.facebook.react:react-native:+"
-+  implementation "com.facebook.react:react-android:$version"
++  implementation "com.facebook.react:react-android"
    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
  }
  
