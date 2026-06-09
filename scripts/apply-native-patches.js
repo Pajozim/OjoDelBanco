@@ -7,7 +7,7 @@ function patch(filePath, from, to) {
     console.warn(`Skipping patch, file not found: ${filePath}`);
     return;
   }
-  const content = fs.readFileSync(full, 'utf8');
+  let content = fs.readFileSync(full, 'utf8');
   if (content.includes(to)) {
     console.log(`Already patched: ${filePath}`);
     return;
@@ -34,11 +34,39 @@ patch(
   '// "react-native-worklets/plugin",'
 );
 
-// expo-modules-core - fix compose compiler version
-patch(
-  'node_modules/expo-modules-core/android/build.gradle',
-  '"1.9.25": "1.5.15"',  // verify this is still the right target
-  '"1.9.25": "1.5.15"'   // no-op if already correct
-);
+// @gutenye/ocr-react-native - fix CMakeLists for new arch
+const cmakePath = 'node_modules/@gutenye/ocr-react-native/android/CMakeLists.txt';
+if (fs.existsSync(cmakePath)) {
+  let cmake = fs.readFileSync(cmakePath, 'utf8');
+  let changed = false;
+
+  if (cmake.includes('find_package(ReactAndroid REQUIRED CONFIG)')) {
+    cmake = cmake.replace('find_package(ReactAndroid REQUIRED CONFIG)', 'find_package(ReactAndroid CONFIG)');
+    changed = true;
+  }
+
+  const jsiInclude = '  ${CMAKE_SOURCE_DIR}/../../../react-native/ReactCommon/jsi';
+  if (!cmake.includes(jsiInclude)) {
+    cmake = cmake.replace('include_directories(', `include_directories(\n${jsiInclude}`);
+    changed = true;
+  }
+
+  if (cmake.includes('  ReactAndroid::jsi\n  ${REACT_NATIVE_TARGET}')) {
+    cmake = cmake.replace('  ReactAndroid::jsi\n  ${REACT_NATIVE_TARGET}', '  ${REACT_NATIVE_TARGET}');
+    changed = true;
+  }
+
+  if (cmake.includes('set(REACT_NATIVE_TARGET ReactAndroid::jsi)')) {
+    cmake = cmake.replace('set(REACT_NATIVE_TARGET ReactAndroid::jsi)', 'set(REACT_NATIVE_TARGET "")');
+    changed = true;
+  }
+
+  if (changed) {
+    fs.writeFileSync(cmakePath, cmake);
+    console.log('Patched: CMakeLists.txt');
+  } else {
+    console.log('Already patched: CMakeLists.txt');
+  }
+}
 
 console.log('Native patches applied');
