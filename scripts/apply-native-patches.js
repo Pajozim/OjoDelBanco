@@ -46,19 +46,6 @@ if (fs.existsSync(cmakePath)) {
     console.log('Applied: ReactAndroid optional');
   }
 
-  const jsiInclude = '  ${CMAKE_SOURCE_DIR}/../../../react-native/ReactCommon/jsi';
-  if (!cmake.includes(jsiInclude)) {
-    cmake = cmake.replace('include_directories(', `include_directories(\n${jsiInclude}`);
-    changed = true;
-    console.log('Applied: JSI include path');
-  }
-
-  if (cmake.includes('ReactAndroid::jsi')) {
-    cmake = cmake.replace(/\s*ReactAndroid::jsi/g, '');
-    changed = true;
-    console.log('Applied: removed ReactAndroid::jsi');
-  }
-
   if (cmake.includes('ReactAndroid::reactnativejni')) {
     cmake = cmake.replace(/\s*ReactAndroid::reactnativejni/g, '');
     changed = true;
