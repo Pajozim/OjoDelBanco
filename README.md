@@ -24,17 +24,7 @@ Security Warnings: Most Android phones will block "Unknown Apps" by default. You
 iOS Limitations: Keep in mind that a "standalone" file for iOS users (like an .ipa) is not easy because of Apple's code-signing restrictions. 
 
 ### Development Setup
-If you want to run the app from the source code.
-
-Prerequisites: [bun](https://bun.sh/) OR [npm](https://docs.npmjs.com/about-npm-versions#the-latest-release-of-npm)
-
-CLI commands:
-
-```bash
-bun install
-bunx expo prebuild
-bunx expo run:android
-```
+If you want to run the app from the source code, jump to [Contributing](#contributing) section.
 
 ---
 ## Usage
@@ -144,6 +134,8 @@ cd OjoDelBanco
 ```
 
 ### Install dependencies
+
+Prerequisites: [bun](https://bun.sh/) OR [npm](https://docs.npmjs.com/about-npm-versions#the-latest-release-of-npm)
 
 ```bash
 # npm install also works
