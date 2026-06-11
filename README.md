@@ -18,7 +18,7 @@ I built Ojo del Banco to streamline the completion of a direct transfer protocol
 ## Quick Start
 
 ### Android 
-Download and install the latest **[.apk file here](https://github.com/your-username/your-repo/releases)** to run the demo app directly on your device. Go to "Transfer" and click on "use Scanner" to have the full experience of gutenyeOCR/paddleOCR and ONNX-runtime module.
+Download and install the latest **[.apk file here](https://github.com/Pajozim/OjoDelBanco/releases/tag/apk-release)** to run the demo app directly on your device. Go to "Transfer" and click on "use Scanner" to have the full experience of gutenyeOCR/paddleOCR and ONNX-runtime module.
 
     Notes: - Security Warnings: Most Android phones will block "Unknown Apps" by default. You might want to activate "Allow from this source" in the settings to install it. Alternative would be online emulators (e.g.: appetize.io).
     - iOS Limitations: Keep in mind that a "standalone" file for iOS users (like an .ipa) is not easy because of Apple's code-signing restrictions. 
