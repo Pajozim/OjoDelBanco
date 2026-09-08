@@ -89,5 +89,10 @@
   "jest": {
     "preset": "jest-expo"
   },
+  "doctor": {
+    "reactNativeDirectoryCheck": {
+      "exclude": ["clsx", "@gutenye/ocr-react-native", "patch-package", "eslint-plugin-react-hooks"]
+    }
+  },
   "trustedDependencies": []
 }
