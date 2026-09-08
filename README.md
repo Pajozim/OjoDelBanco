@@ -30,6 +30,7 @@ If you want to run the app from the source code, jump to [Contributing](#contrib
 ## Usage
 
 ### Customization:
+<<<<<<< HEAD
 Image format (only JPEG or PNG) changes or manipulation demands can be changed on "*// Image Manipulation*" block in: <br> `./src/lib/OCR_&_ONNX.ts`
 
 Knowing there are some pattern that can be implemented in post-processing (after text extraction from photograph): <br> `./src/lib/postprocess.ts`
@@ -121,6 +122,107 @@ when different models were implemented, then changes has to be hardcoded on "*//
 
 ### UI & UX Customization: 
 `./src/components/` <br> `./src/context/`
+=======
+- Image format (only JPEG or PNG) or manipulation demands can be changed on block "// Image Manipulation" in:
+ `./src/lib/OCR_&_ONNX.ts`
+
+- Knowing there are some pattern that can be implemented in post-processing (after text extraction from photograph):
+`./src/lib/postprocess.ts`
+
+### Localization:
+- The module is currently optimized for the Mexican market. To support other regions, update the character dictionary at:
+`./assets/models/character_dict.dict.`
+or
+`./assets/models/___character_dict copy.json` (original file as backup)
+
+### Performance Tuning:
+- Depending on how the results come out (i.e. the accuracy of extracting text of a photograph), you may change the parameters in:
+`./src/lib/GutenyeOCR.ts`
+
+Legend ([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuration-options#platform-specific-options)):
+
+    - isDebug: false,
+        ==> enables debug logging and output (default: false)
+    
+    - recognitionImageMaxSize: 480,       
+        ==> maximum width for the recognition model input (default: 480)
+        ==> controls the maximum width of images fed to the recognition model
+        ==> larger values improve accuracy but slow down processing
+        ==> the system resizes images to fit within this limit while maintaining aspect ratio
+        ==> used in the image preprocessing stage before text recognition
+
+    - detectionThreshold: 0.8,
+        ==> minimum confidence threshold for text detection (default: 0.3)
+        ==> minimum confidence level for detecting text regions
+        ==> lower values detect more text but may include false positives
+        ==> higher values are more selective but might miss some text
+        ==> applied during the thresholding step that converts probability maps to binary images
+
+    - detectionBoxThreshold: 0.6,
+        ==> threshold for the text boxes (default: 0.5)
+        ==> confidence threshold for individual text bounding boxes
+        ==> filters out low-confidence text regions after initial detection
+        ==> works alongside detectionThreshold to refine results
+        ==> used when scoring and filtering detected text boxes
+
+    - detectionUnclipRatiop: 1.8,
+        ==> Unclip ratio for detection boxes (default: 1.6)
+        ==> controls how much to expand detected text boxes
+        ==> helps capture text that might be cut off at the edges
+        ==> higher values capture more context but may include unwanted areas
+        ==> applied during the "unclip" operation that expands bounding boxes
+
+    - detectionUseDilate: false,
+        ==> Whether to use dilation in the detection process (default: false)
+        ==> whether to apply dilation (expansion) to text regions
+        ==> can help connect broken text fragments
+        ==> useful for text with poor spacing or disconnected characters
+        ==> pplied to the binary image before finding text contours
+
+    - detectionUsePolygonScore: false,
+        ==> Whether to use polygon score in detection (default: false)
+        ==> method for calculating confidence scores of text regions
+        ==> polygon score considers the actual shape of text regions
+        ==> alternative is faster box-based scoring
+        ==> affects which text regions pass the confidence threshold
+
+    - useDirectionClassify: false,
+        ==> Whether to use the direction classification model (default: true)
+        ==> enables automatic text direction detection and correction
+        ==> rotates text that appears sideways or upside down
+        ==> adds processing time but improves accuracy for mixed-orientation text
+        ==> applied to each detected text region before recognition
+
+
+### Model Configuration:
+- If there is wish to test other inference and/or recognition models:
+`./src/lib/GutenyeOCR.ts`
+
+Legend ([gutenyeOCR deepwiki](https://deepwiki.com/gutenye/ocr/6.1-configuration-options#core-configuration-options)):
+
+    - detectionModelPath: string; 
+        ==> path to the detection model file (.onnx)
+
+    - recognitionModelPath: string; 
+        ==> path to the recognition model file (.onnx)
+
+    - classifierModelPath: string; 
+        ==> default is: ch_ppocr_mobile_v2.0_cls_infer.onnx
+        ==> when You Need It:
+            - using the React Native implementation
+            - explicitly providing custom model paths (instead of using defaults)
+            - planning to enable the useDirectionClassify option for text orientation detection
+
+    - dictionaryPath: string; 
+        ==> path to the character dictionary file (.txt | .dict)
+
+when different models were implemented, then changes has to be hardcoded on "// starting gutenyeOCR" in:
+`./src/lib/Scanner.ts`
+
+### UI & UX Customization:
+`./src/components/`
+`./src/context/`
+>>>>>>> 17db7e8 (0626: patch script update)
 
 
 ---

@@ -70,3 +70,10 @@ if (fs.existsSync(cmakePath)) {
 }
 
 console.log('Native patches applied');
+console.log('CMakeLists.txt content:');
+console.log(fs.readFileSync(cmakePath, 'utf8'));
+
+console.log('CMakeLists target_link_libraries:');
+const cmake = fs.readFileSync('node_modules/@gutenye/ocr-react-native/android/CMakeLists.txt', 'utf8');
+const idx = cmake.indexOf('target_link_libraries');
+console.log(cmake.substring(idx, idx + 200));
