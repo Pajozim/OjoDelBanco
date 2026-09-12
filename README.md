@@ -172,7 +172,7 @@ when different models were implemented, then changes has to be hardcoded on "*//
 **nubank-clone UI & UX:** https://github.com/jvittor1/nubank-clone <br>
 **OCR integration:** https://github.com/gutenye/ocr <br>
 Note on @gutenye/ocr-react-native: the original package crashes on native module install with RN 0.76.9 (a SIGTRAP in install(facebook::jsi::Runtime&), consistently reproducible). Switched to the [@kevinqi/ocr-react-native](https://www.npmjs.com/package/@kevinqi/ocr-react-native) fork (pinned to 1.4.8-rnfix.1), which resolves it. The fork's main code difference from 1.4.8 is an added libreactnative.so exclusion in its android/build.gradle packaging config; applying that same change alone to the original package did not reproduce the fix in testing, so the exact mechanism isn't fully isolated — noted here for anyone who wants to dig further. See upstream issue [gutenye/ocr#13](https://github.com/gutenye/ocr/issues/13) for related context. <br>
-**modified OCR integration**: https://github.com/kevinsqi/guteneye-ocr
+**Fork source (fix):** https://github.com/kevinsqi/guteneye-ocr
 
 ---
 ## Commercial use & collaboration
