@@ -23,8 +23,49 @@ Notes:
 Security Warnings: Most Android phones will block "Unknown Apps" by default. You might want to activate "Allow from this source" in the settings to install it. Alternative would be online emulators (e.g.: appetize.io).
 iOS Limitations: Keep in mind that a "standalone" file for iOS users (like an .ipa) is not easy because of Apple's code-signing restrictions. 
 
-### Development Setup
-If you want to run the app from the source code, jump to [Contributing](#contributing) section.
+---
+## Contributing/Development Setup
+
+Running the app from the source code.
+
+### Prerequisites
+
+1. Install Android Studio (includes the SDK manager).
+2. Set `ANDROID_HOME` in their shell profile:
+```bash
+   export ANDROID_HOME=$HOME/Android/Sdk        # Linux
+   export ANDROID_HOME=$HOME/Library/Android/sdk # macOS
+   export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
+```
+Once `ANDROID_HOME` is set, `expo prebuild` / `expo run:android` auto-generates `android/local.properties` with the correct `sdk.dir` — no manual file editing needed.
+
+### Clone the repo
+
+```bash
+git clone https://github.com/yourusername/OjoDelBanco
+cd OjoDelBanco
+```
+
+### Install dependencies
+
+Prerequisites: [bun](https://bun.sh/) OR [npm](https://docs.npmjs.com/about-npm-versions#the-latest-release-of-npm)
+
+```bash
+# npm install also works
+bun install
+```
+
+### Run on Android
+
+```bash
+# npx expo prebuild / npx expo run:android also work
+bunx expo prebuild
+bunx expo run:android
+```
+
+### Submit a pull request
+
+Fork the repository and open a pull request to the main branch.
 
 ---
 ## Usage
@@ -122,38 +163,6 @@ when different models were implemented, then changes has to be hardcoded on "*//
 ### UI & UX Customization: 
 `./src/components/` <br> `./src/context/`
 
-
----
-## Contributing
-
-### Clone the repo
-
-```bash
-git clone https://github.com/yourusername/OjoDelBanco
-cd OjoDelBanco
-```
-
-### Install dependencies
-
-Prerequisites: [bun](https://bun.sh/) OR [npm](https://docs.npmjs.com/about-npm-versions#the-latest-release-of-npm)
-
-```bash
-# npm install also works
-bun install
-```
-
-### Run on Android
-
-```bash
-# npx expo prebuild / npx expo run:android also work
-bunx expo prebuild
-bunx expo run:android
-```
-
-### Submit a pull request
-
-Fork the repository and open a pull request to the main branch.
-
 ---
 ## Limitations
 **Mobile compute limits** – On‑device model size is bounded by phone CPU/RAM and thermal constraints. Large or ensemble models are not feasible locally and would require cloud offloading.
@@ -162,8 +171,16 @@ Fork the repository and open a pull request to the main branch.
 ## Credits
 **nubank-clone UI & UX:** https://github.com/jvittor1/nubank-clone <br>
 **OCR integration:** https://github.com/gutenye/ocr
+Note on @gutenye/ocr-react-native: the original package crashes on native module install with RN 0.76.9 (a SIGTRAP in install(facebook::jsi::Runtime&), consistently reproducible). Switched to the [@kevinqi/ocr-react-native](https://www.npmjs.com/package/@kevinqi/ocr-react-native) fork (pinned to 1.4.8-rnfix.1), which resolves it. The fork's main code difference from 1.4.8 is an added libreactnative.so exclusion in its android/build.gradle packaging config; applying that same change alone to the original package did not reproduce the fix in testing, so the exact mechanism isn't fully isolated — noted here for anyone who wants to dig further. See upstream issue [gutenye/ocr#13](https://github.com/gutenye/ocr/issues/13) for related context.
+**modified OCR integration**: https://github.com/kevinsqi/guteneye-ocr
 
 ---
 ## Commercial use & collaboration
 
 Ojo del Banco is open-source and free to use under its license. I'm also open to paid engagements with companies looking to integrate or tune this module for their specific transaction formats and user base — including accuracy tuning, custom integration work, or commercial licensing arrangements. If that's of interest, feel free to reach out via [pajozim@gmail.com](mailto:pajozim@gmail.com).
+
+---
+<!-- TODO: 16KB page-size alignment issue — libexpo-modules-core.so (and
+     possibly others) fail ELF alignment check for Android 15+ / Play
+     Store's 16KB requirement. Not blocking local dev. Fix path: RN 0.77+
+     upgrade, or patch-package with -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON. -->
