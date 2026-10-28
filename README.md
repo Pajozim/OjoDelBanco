@@ -3,7 +3,7 @@
 A banking app module that extracts a handwritten transaction data placard and automatically populates the read data into the corresponding input fields. Currently optimized for Mexican banking formats.
 
 <video src="https://github.com/user-attachments/assets/50805d54-90d8-4bb5-a1e1-d1ee328f64d5" width="90%" controls autoplay muted loop></video>
-<video src="https://github.com/Pajozim/OjoDelBanco/blob/main/assets/media/OdB%20demo.webm" width="90%" controls autoplay muted loop></video>
+*Note: If the video doesn't play, try to open it on a new tab.*
 
 ---
 ## Motivation
